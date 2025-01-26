@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+                .header {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            margin-bottom: 40px;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+        }
+        .table-header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 15px;
+            font-size: 1.25rem;
+            font-weight: bold;
+            border-radius: 0.25rem 0.25rem 0 0;
+        }
+        .table th {
+            width: 25%;
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+        .table td {
+            width: 75%;
+        }
+        .table-striped > tbody > tr:nth-of-type(odd) > * {
+            --bs-table-accent-bg: #f8f9fa;
+        }
+        @media (max-width: 768px) {
+            .table th {
+                width: 35%;
+            }
+            .table td {
+                width: 65%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <h1 class="display-6 fw-bold" style="font-size: 30px;">{{ property.Property_Title }} in {{ property.Location }}, <br>{{ property.City }}</br></h1>
+            <p class="lead text-muted" style="line-height: 0;">Detailed information about the property listed for auction.</p>
+        </div>
+    <div class="container mt-4" style="width: 85%;">
+        <div class="card shadow rounded">
+            <div class="table-header">Property Details</div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped mb-0">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Bank Name</th>
+                            <td>{{ property.Bank }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Property Type</th>
+                            <td>{{ property.Property_Title }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Possession</th>
+                            <td>{{ property.possession|default:"Not Available" }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Location</th>
+                            <td>{{ property.Location }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">City</th>
+                            <td>{{ property.City }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Amount</th>
+                            <td>₹ {{ property.Amount|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Reserve Price</th>
+                            <td>₹ {{ property.Reserve_price|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">EMD Amount</th>
+                            <td>₹ {{ property.EMD_amount|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Bid Increment</th>
+                            <td>₹ {{ property.Bid_increment|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">EMD Submission Date</th>
+                            <td>{{ property.EMD_submission_date }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Auction Start Date</th>
+                            <td>{{ property.Auction_start_date }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Auction End Date</th>
+                            <td>{{ property.Auction_end_date }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Property Description</th>
+                            <td>{{ property.Description }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+            <!-- Back to Home Button -->
+            <div class="text-center">
+                <a href="{% url 'home' %}" class="btn-back">Back to Home</a>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <p>&copy; 2024 Eauctions | All rights reserved.</p>
+            </div>
+        </div>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

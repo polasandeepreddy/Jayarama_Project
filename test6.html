@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="min-h-screen bg-[#0F1729] text-white">
+        <!-- Header -->
+        <header class="flex items-center justify-between p-4 border-b border-gray-800">
+            <div class="flex items-center gap-4">
+                <h1 class="text-xl font-bold">QEdge</h1>
+                <div class="relative">
+                    <input 
+                        type="search" 
+                        placeholder="search" 
+                        class="bg-gray-800 px-4 py-2 rounded-lg"
+                    >
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="px-4 py-2">Get App</button>
+                <div class="w-10 h-10 rounded-full bg-gray-400"></div>
+            </div>
+        </header>
+        <!-- Footer -->
+        <footer class="border-t border-gray-800 p-4">
+            <div class="flex items-center gap-4">
+                <h1 class="text-xl font-bold">QEdge</h1>
+                <button class="border border-gray-600 px-3 py-1 rounded text-sm">LANGUAGES</button>
+                <a href="{% url 'about' %}" class="text-sm text-gray-400">About Us</a>
+            </div> 
+            <div class="mt-4 text-sm text-gray-400">
+                <a href="{% url 'privacy' %}" class="mr-4">Privacy Policy</a>
+                <a href="{% url 'about' %}" class="mr-4">aboutus</a>
+                <span>Copyright © {% now "Y" %} QEdge</span>
+            </div>
+        </footer>
+    </div>
+{% endblock %}
+</body>
+</html>

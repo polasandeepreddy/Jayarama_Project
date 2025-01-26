@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.details-table th, .details-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+.details-table th {
+    background-color: #f4f4f4;
+}
+.center-btn {
+    display: block; /* Make the button behave like a block element */
+    margin: 20px auto; /* Center it horizontally */
+    text-align: center; /* Align text within the button */
+    padding: 10px 20px;
+    background-color: #007bff; /* Button color */
+    color: #fff; /* Text color */
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    width: 12%; /* Set the width */
+}
+.footer {
+    text-align: center;
+}

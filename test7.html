@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}QEdge Learning Platform{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body class="flex flex-col min-h-screen bg-[#0F1729] text-white">
+    <header class="flex items-center justify-between p-4 border-b border-gray-800 bg-[#0F1729]">
+        <div class="flex items-center gap-4">
+            <a href="{% url 'home' %}" class="text-xl font-bold text-white">QEdge</a>
+            <div class="relative">
+                <input 
+                    type="search" 
+                    placeholder="Search" 
+                    class="bg-[#1a2234] text-white pl-10 pr-4 py-2 rounded-lg border border-gray-700 focus:outline-none focus:border-blue-500"
+                >
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <button class="px-4 py-2 bg-[#1a2234] text-white rounded-lg hover:bg-[#2a3441] transition-colors">
+                Get App
+            </button>
+            <div class="w-10 h-10 rounded-full bg-gray-400"></div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="border-t border-gray-800 p-4 bg-[#0F1729] text-white">
+        <div class="flex items-center gap-4 mb-4">
+            <a href="{% url 'home' %}" class="text-xl font-bold">QEdge</a>
+            <button class="border border-gray-600 px-3 py-1 rounded text-sm hover:bg-gray-800 transition-colors">
+                LANGUAGES
+            </button>
+            <a href="{% url 'about' %}" class="text-sm text-gray-400 hover:text-white transition-colors">
+                About Us
+            </a>
+        </div>
+        <div class="text-sm text-gray-400">
+            <a href="{% url 'privacy' %}" class="mr-4 hover:text-white transition-colors">Privacy Policy</a>
+            <a href="{% url 'about' %}" class="mr-4 hover:text-white transition-colors">About Us</a>
+            <span>Copyright © {% now "Y" %} QEdge</span>
+        </div>
+    </footer>
+</body>
+</html>

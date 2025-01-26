@@ -1,0 +1,142 @@
+{% extends 'properties/base.html' %}
+{% block title %}Advance Search{% endblock %}
+{% block content %}
+    <div class="container py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">Advance Search</h2>
+                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#searchForm">
+                        Hide Advance Options
+                    </button>
+                </div>
+                
+                <div class="collapse show" id="searchForm">
+                    <div class="card card-body mb-4 shadow-sm">
+                        <form method="get" class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Location</label>
+                                {{ form.location }}
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label class="form-label">Bank Name</label>
+                                {{ form.bank }}
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label class="form-label">Category</label>
+                                {{ form.category }}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">From Date</label>
+                                {{ form.from_date }}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">To Date</label>
+                                {{ form.to_date }}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">Min Price</label>
+                                {{ form.min_price }}
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label class="form-label">Max Price</label>
+                                {{ form.max_price }}
+                            </div>
+                            
+                            <div class="col-12">
+                                <label class="form-label d-block">Possession Type</label>
+                                <div class="btn-group" role="group">
+                                    {% for radio in form.possession_type %}
+                                    <div class="form-check form-check-inline">
+                                        {{ radio.tag }}
+                                        <label class="form-check-label" for="{{ radio.id_for_label }}">
+                                            {{ radio.choice_label }}
+                                        </label>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 text-center">
+                                <button type="submit" class="btn btn-dark px-4">
+                                    Search Auction
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                {% if properties %}
+                <div class="mb-3">
+                    <h5>Found {{ total_results }} properties</h5>
+                </div>
+                
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    {% for property in properties %}
+                    <div class="col">
+                        <div class="card h-100 shadow-sm">
+                            <img src="{{ property.Image.url }}" class="card-img-top" alt="{{ property.Title }}" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ property.Title }}</h5>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        <i class="bi bi-geo-alt"></i> {{ property.Location }}, {{ property.City }}
+                                    </small>
+                                </p>
+                                <p class="card-text">
+                                    <strong>Bank:</strong> {{ property.Bank.Name }}<br>
+                                    <strong>Category:</strong> {{ property.Property_Title }}<br>
+                                    <strong>Amount:</strong> ₹{{ property.Amount|floatformat:2 }}
+                                </p>
+                                <p class="card-text">
+                                    <small class="text-muted">
+                                        Auction ends: {{ property.Auction_end_date|date:"d M Y" }}
+                                    </small>
+                                </p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <a href="{{ property.get_absolute_url }}" class="btn btn-primary w-100">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                {% if properties.has_other_pages %}
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if properties.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ properties.previous_page_number }}&{{ request.GET.urlencode }}">&laquo;</a>
+                        </li>
+                        {% endif %}
+                        
+                        {% for num in properties.paginator.page_range %}
+                        <li class="page-item {% if properties.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}&{{ request.GET.urlencode }}">{{ num }}</a>
+                        </li>
+                        {% endfor %}
+                        
+                        {% if properties.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ properties.next_page_number }}&{{ request.GET.urlencode }}">&raquo;</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+                {% else %}
+                <div class="alert alert-info">
+                    No properties found matching your search criteria.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

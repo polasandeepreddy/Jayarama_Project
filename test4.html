@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration & Stamps Department - Government of Telangana</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <div class="toll-free">
+                Toll Free No for Enquiries : 1800 599 4788
+            </div>
+            <div class="font-controls">
+                <button class="font-btn">A+</button>
+                <button class="font-btn">A-</button>
+                <button class="font-btn">A</button>
+                <button class="font-btn">A</button>
+                <button class="font-btn">A</button>
+            </div>
+        </div>
+        
+        <div class="main-header">
+            <img src="{% static 'images/telangana-logo.png' %}" alt="Telangana Logo" class="logo">
+            <div class="header-text">
+                <h1>REGISTRATION & STAMPS DEPARTMENT</h1>
+                <h2>Government of Telangana</h2>
+            </div>
+            <img src="{% static 'images/telangana-rising.png' %}" alt="Telangana Rising" class="rising-logo">
+        </div>
+
+        <nav class="main-nav">
+            <ul>
+                {% for item in nav_items %}
+                    <li class="{% if item.has_dropdown %}has-dropdown{% endif %} {% if item.special_class %}{{ item.special_class }}{% endif %}">
+                        <a href="{{ item.url }}">{{ item.name }}</a>
+                        {% if item.has_dropdown %}
+                            <span class="dropdown-arrow">▼</span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </header>
+
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
