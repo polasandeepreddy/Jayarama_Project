@@ -1,0 +1,11 @@
+{% extends 'properties/base.html' %}
+{% block title %}Add Bank{% endblock %}
+{% block content %}
+    <h1>Add Bank</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Bank</button>
+    </form>
+    <a href="{% url 'home' %}">Back to Home</a>
+{% endblock %}
