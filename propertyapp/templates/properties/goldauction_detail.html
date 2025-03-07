@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Gold Auction Details{% endblock %}
+
+{% block content %}
+<div class="container">
+    <!-- Header Section -->
+    <div class="text-center mt-4">
+        <h1 class="display-6 fw-bold">Gold Auction Details</h1>
+        <p class="lead text-muted">Detailed information about the selected gold auction.</p>
+    </div>
+
+    <div class="container mt-4" style="width: 85%;">
+        <div class="card shadow rounded p-3">
+            <div class="bg-primary text-white p-3 rounded-top">
+                <h5 class="mb-0">Property Details</h5>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped mb-0">
+                    <tbody>
+                        <tr>
+                            <th>Application/Region</th>
+                            <td>{{ auction.appl_apac }}</td>
+                        </tr>
+                        <tr>
+                            <th>Party Name</th>
+                            <td>{{ auction.party_name|default:"Not Available" }}</td>
+                        </tr>
+                        <tr>
+                            <th>Item</th>
+                            <td>{{ auction.item }}</td>
+                        </tr>
+                        <tr>
+                            <th>Gross Weight (kg)</th>
+                            <td>{{ auction.gross_wgt|floatformat:2 }}</td>
+                        </tr>
+                        <tr>
+                            <th>State</th>
+                            <td>{{ auction.state }}</td>
+                        </tr>
+                        <tr>
+                            <th>Sub-Location</th>
+                            <td>{{ auction.sub_location }}</td>
+                        </tr>
+                        <tr>
+                            <th>Branch Name</th>
+                            <td>{{ auction.branch_name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Auction Date</th>
+                            <td>{{ auction.auction_date }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="d-flex justify-content-end mt-3">
+                <a href="{% url 'download_auction_pdf' auction.id %}" class="btn btn-success btn-sm fw-bold shadow">
+                    <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="text-center mt-1 p-3">
+        <a href="{% url 'gold_auction_list' %}" class="btn btn-primary">Back to Auction List</a>
+    </div>
+</div>
+{% endblock %}

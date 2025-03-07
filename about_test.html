@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gray-100">
+
+    <header class="py-4 px-6 bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="{% url 'home' %}" class="flex items-center">
+                <img src="{% static 'img/logo.png' %}" alt="Company Logo" class="h-10 w-auto">
+            </a>
+            <nav class="hidden md:flex items-center gap-6">
+                <a href="{% url 'home' %}" class="text-sm text-gray-600 hover:text-blue-600">Home</a>
+                <a href="{% url 'about' %}" class="text-sm text-gray-600 hover:text-blue-600">About Us</a>
+                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Product & Services</a>
+                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Careers</a>
+                <a href="#" class="text-sm text-gray-600 hover:text-blue-600">Contact Us</a>
+            </nav>
+            <div class="flex items-center gap-4 text-sm">
+                <span class="text-red-600">+91-9810701697</span>
+                <a href="#" class="text-red-600">My Account</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-6">
+<!-- Search Form -->
+<form method="get" action="{% url 'search_property' %}" class="text-center mb-4" style="width: 40%; margin: 0 auto;">
+    {% csrf_token %}
+    <div class="input-group justify-content-center">
+        <input type="text" name="query" class="form-control me-2 rounded-start rounded-end" placeholder="Search properties">
+        <button type="submit" class="btn btn-outline-primary rounded-start rounded-end">Search</button>
+    </div>
+</form>
+
+<!-- Advanced Search Button -->
+<form action="{% url 'advanced_search' %}" method="get" class="text-center mb-4">
+    <button type="submit" class="btn btn-secondary">Advanced Search</button>
+</form>
+
+<!-- Properties Table -->
+<div class="table-responsive" style="width: 90%; margin: 0 auto;">
+    <table class="table table-bordered table-striped table-hover" >
+        <thead class="thead-dark text-center">
+            <tr>
+                <th>Auction Id</th>
+                <th>Title</th>
+                <th>City</th>
+                <th>Reserve Price</th>
+                <th>Auction Date</th>
+                <th>EMD</th>
+                <th>View Details</th>
+            </tr>
+        </thead>
+        <tbody class="text-center">
+            {% for property in properties %}
+                <tr>
+                    <td>{{ property.Auction_id }}</td>
+                    <td>{{ property.Title }}</td>
+                    <td>{{ property.City }}</td>
+                    <td>Rs. {{ property.Reserve_price }}</td>
+                    <td>{{ property.Auction_start_date |date:"d-m-Y, h:i A" }}</td>
+                    <td>Rs. {{ property.EMD_amount }}</td>
+                    <td>
+                        <a href="{{ property.get_absolute_url }}" class="btn btn-info btn-sm">View more</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+    </main>
+
+    <footer class="bg-white py-4 px-6 mt-12 shadow-sm">
+        <div class="max-w-7xl mx-auto text-center text-sm text-gray-600">
+            <p>&copy; 2025 Jayarama Associates. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

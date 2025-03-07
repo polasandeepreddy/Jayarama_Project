@@ -12,17 +12,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv  # Import dotenv to load environment variables
+
+# Load environment variables from .env file
+load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$#$d$sjkjthoot!xm^0j6nue3o9=^f+a0pf*9doewjum3=^we-'
+SECRET_KEY = os.getenv('SECRET_KEY', 'your-default-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -57,7 +55,10 @@ ROOT_URLCONF = 'property.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ BASE_DIR / 'templates' ],
+        'DIRS': [  
+            BASE_DIR / 'templates',  
+            BASE_DIR / 'propertyapp' / 'templates' / 'properties'  
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -108,11 +109,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'  # Set timezone to Indian Standard Time (IST)
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = True  # Keep it True for timezone-aware timestamps
 
 
 # Static files (CSS, JavaScript, Images)
@@ -120,17 +121,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = [
-#   BASE_DIR / "static",
-# ]
-
-
-MEDIA_ROOT = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
 # Session Expiry Settings
-SESSION_COOKIE_AGE = 5 * 60  # 5 minutes (time in seconds)
+SESSION_COOKIE_AGE = 15 * 60  # 15 minutes (time in seconds)
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire session when the browser is closed
 SESSION_SAVE_EVERY_REQUEST = True  # Reset session timer on every request
 
@@ -140,7 +135,19 @@ SESSION_SAVE_EVERY_REQUEST = True  # Reset session timer on every request
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'login'
 LOGIN_URL = 'login'
 
 LOGOUT_REDIRECT_URL = '/login/'  # Redirect to the login page after logout
+
+
+# Email configuration (using environment variables for security)
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'polasandeepreddyirctc@gmail.com'
+EMAIL_HOST_PASSWORD = 'gegiqbyguvpehowo'  # Use App Password, NOT your actual Gmail password
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+

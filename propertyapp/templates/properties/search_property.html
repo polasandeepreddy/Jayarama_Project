@@ -4,7 +4,7 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="mb-4">Search Results for "{{ query }}"</h1>
+    <h1 class=" text-center mb-4">Search Results for "{{ query }}"</h1>
     {% if properties %}
     <div class="table-responsive">
         <table class="table table-bordered table-striped table-hover align-middle text-center">
@@ -29,7 +29,7 @@
                     <td>{{ property.Auction_start_date|date:"d-m-Y, h:i A" }}</td>
                     <td>Rs. {{ property.EMD_amount }}</td>
                     <td>
-                        <a href="{{ property.get_absolute_url }}" class="btn btn-primary btn-sm">View</a>
+                        <a href="{{ property.get_absolute_url }}" class="btn btn-info btn-sm" style="border-radius: 5px;">View more</a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -41,6 +41,11 @@
         No properties found matching your search.
     </div>
     {% endif %}
-    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Back to Home</a>
+    <div class="text-center mt-0 p-3">
+        <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
+        {% if user.is_staff or user.is_superuser %}
+        <a href="{% url 'download_search_results' %}?query={{ query }}" class="btn btn-success">Download Excel</a>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}
