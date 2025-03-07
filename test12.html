@@ -1,0 +1,157 @@
+{% extends 'properties/base.html' %}
+{% load static humanize %}
+
+{% block title %}Property Listings{% endblock %}
+
+{% block extra_css %}
+    <!-- DataTables CSS with Bootstrap 5 theme -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <style>
+        .search-container {
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .dataTables_wrapper {
+            padding: 1rem;
+        }
+        .price-column {
+            white-space: nowrap;
+        }
+        .action-btn {
+            min-width: 100px;
+        }
+        .badge-container {
+            font-size: 0.9em;
+        }
+        .auction-date {
+            min-width: 140px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <!-- Search Section -->
+    <div class="search-container">
+        <div class="row g-3 mb-4">
+            <div class="col-md-8">
+                <form method="get" action="{% url 'search_property' %}">
+                    <div class="input-group">
+                        <input type="text" name="query" class="form-control form-control-lg" 
+                               placeholder="Search by location, property type, or keyword"
+                               aria-label="Search properties">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4 d-flex align-items-center">
+                <a href="{% url 'advanced_search' %}" class="btn btn-outline-secondary w-100">
+                    <i class="fas fa-filter"></i> Advanced Search
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Properties Table -->
+    <div class="table-container">
+        <table id="propertiesTable" class="table table-hover table-striped" style="width:100%">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Property</th>
+                    <th>Location</th>
+                    <th>Reserve Price</th>
+                    <th>Auction Date</th>
+                    <th>EMD</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for property in properties %}
+                <tr>
+                    <td>{{ property.Auction_id }}</td>
+                    <td>{{ property.Title|truncatechars:40 }}</td>
+                    <td>
+                        <div class="d-flex flex-column">
+                            <span>{{ property.City }}</span>
+                            <small class="text-muted">{{ property.Locality }}</small>
+                        </div>
+                    </td>
+                    <td class="price-column">₹{{ property.Reserve_price|intcomma }}</td>
+                    <td class="auction-date">
+                        <div class="badge-container">
+                            <span class="badge bg-primary">
+                                {{ property.Auction_start_date|date:"d M Y" }}
+                            </span>
+                            <small class="text-muted d-block">
+                                {{ property.Auction_start_date|date:"h:i A" }}
+                            </small>
+                        </div>
+                    </td>
+                    <td class="price-column">₹{{ property.EMD_amount|intcomma }}</td>
+                    <td>
+                        <a href="{{ property.get_absolute_url }}" 
+                           class="btn btn-sm btn-outline-primary action-btn"
+                           aria-label="View details for {{ property.Title }}">
+                            <i class="fas fa-eye"></i> Details
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if page_obj.paginator.num_pages > 1 %}
+    <nav aria-label="Property pagination" class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <span class="page-link">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+            </li>
+
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+    <!-- DataTables with Bootstrap 5 integration -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13

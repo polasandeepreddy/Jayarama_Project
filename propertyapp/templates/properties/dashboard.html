@@ -1,0 +1,14 @@
+{% extends "properties/base.html" %}
+
+{% block content %}
+  <h1>Welcome to Your Dashboard, {{ user.username }}</h1>
+  
+  <h3>Your Properties</h3>
+  <ul>
+    {% for property in properties %}
+      <li>{{ property.title }}</li>
+    {% empty %}
+      <li>No properties listed yet.</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

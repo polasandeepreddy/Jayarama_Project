@@ -1,0 +1,125 @@
+{% extends 'properties/base.html' %}
+{% load static %}
+{% block title %}Gold Auctions{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .table-responsive {
+            overflow-x: auto;
+            max-width: 100%;
+        }
+        thead.thead-dark {
+            background-color: #333;
+            color: white;
+        }
+
+        /* Apply border-radius */
+        .custom-table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+        }
+
+        /* Round top corners */
+        .custom-table thead tr:first-child th:first-child {
+            border-top-left-radius: 10px;
+        }
+
+        .custom-table thead tr:first-child th:last-child {
+            border-top-right-radius: 10px;
+        }
+
+        /* Round bottom corners */
+        .custom-table tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 10px;
+        }
+
+        .custom-table tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#propertiesTable").DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "ordering": false
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="mt-5">
+        <form method="get" action="{% url 'search_property' %}" class="text-center mb-4" style="width: 40%; margin: 0 auto;">
+            {% csrf_token %}
+            <div class="input-group justify-content-center">
+                <input type="text" id="search-query" name="query" class="form-control me-2" 
+                       style="border-radius: 10px;" placeholder="Search auctions" value="{{ request.GET.query }}">
+                <button type="submit" class="btn btn-primary" style="border-radius: 10px;">Search</button>
+            </div>
+        </form>
+
+        <form action="{% url 'advanced_search' %}" method="get" class="text-center mb-4">
+            <button type="submit" class="btn btn-secondary">Advanced Search</button>
+        </form>
+    </div>
+
+    <div class="container-fluid">
+        <div class="table-responsive" style="width: 90%; margin: 0 auto;">
+            <table id="propertiesTable" class="table table-bordered table-striped table-hover custom-table">
+                <thead class="thead-dark text-center">
+                    <tr>
+                        <th>Application Id</th>
+                        <th>Item</th>
+                        <th>Gross Weight</th>
+                        <th>State</th>
+                        <th>Sub Location</th>
+                        <th>Branch Name</th>
+                        <th>Auction Date</th>
+                        <th>View Details</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    {% for property in properties %}
+                        <tr>
+                            <td>{{ property.appl_apac }}</td>
+                            <td>{{ property.item.item_title }}</td>
+                            <td>{{ property.gross_wgt }}</td>
+                            <td>{{ property.state }}</td>
+                            <td>{{ property.sub_location }}</td>
+                            <td>{{ property.branch_name }}</td>
+                            <td>{{ property.auction_date|date:"d-m-Y" }}</td>
+                            <td>
+                                <a href="{{ property.get_absolute_url }}" class="btn btn-info btn-sm" style="border-radius: 5px;">
+                                    View more
+                                </a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="8" class="text-center text-muted">No auctions available</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

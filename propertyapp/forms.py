@@ -108,3 +108,18 @@ class SignUpForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=100)
+    email = forms.EmailField()
+    message = forms.CharField(widget=forms.Textarea)
+
+
+class GoldAuctionForm(forms.ModelForm):
+    class Meta:
+        model = GoldAuction
+        fields = ['appl_apac', 'party_name', 'item', 'gross_wgt', 'state', 
+                  'sub_location', 'branch_name', 'auction_date']
+        widgets = {
+            'auction_date': forms.DateInput(attrs={'type': 'date'}),
+        }
