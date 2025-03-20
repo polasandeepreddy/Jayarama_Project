@@ -452,4 +452,4 @@ def profile(request):
     return render(request, 'properties/profile.html')
 
 def faqs_view(request):
-    return render(request, 'properties/faqs.html')
+    return render(request, 'properties/faqs.html') 
